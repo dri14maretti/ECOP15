@@ -1,4 +1,3 @@
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
 public class StringRNA {
     private String cadeiaRNA;
@@ -65,18 +64,19 @@ public class StringRNA {
     public String findBases() {
         String basesEncontrada = "";
         int contadora = 0;
-        while(contadora + 2 < this.cadeiaRNA.length()){
+        while (contadora + 2 < this.cadeiaRNA.length()) {
             String temp = this.cadeiaRNA.substring(contadora, contadora + 3);
             for (int i = 0; i < 21; i++) {
-                for(int j = 2; j < this.bases[i].length; j++){
-                    if(temp.equals(this.bases[i][j])){
-                        basesEncontrada += this.bases[i][1];   ;
+                for (int j = 2; j < this.bases[i].length; j++) {
+                    if (temp.equals(this.bases[i][j])) {
+                        basesEncontrada += this.bases[i][1];
+                        ;
                     }
                 }
             }
             contadora += 3;
         }
-        
+
         return basesEncontrada != "" ? basesEncontrada : "Nenhuma base encontrada";
-    }   
+    }
 }

@@ -1,6 +1,8 @@
 {
-    "java.project.sourcePaths": [
-        "notes/NotasDeAula/src",
-        "lab02/StringRNA"
-    ]
+  "java.project.sourcePaths": [
+    "notes/NotasDeAula/src",
+    "lab04/RaizDePolinomio/src",
+    "lab02/StringRNA/src",
+    "lab04/Vetores/src"
+  ]
 }
