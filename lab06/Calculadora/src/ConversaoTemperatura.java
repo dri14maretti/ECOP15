@@ -6,13 +6,16 @@ public class ConversaoTemperatura extends JLabel {
     private String opcoesDeTemperatura[] = { "Celsius", "Fahrenheit", "Kelvin" };
     private JRadioButton opcoesDeTemperaturaEntradaBtn[] = new JRadioButton[3];
     private JRadioButton opcoesDeTemperaturaSaidaBtn[] = new JRadioButton[3];
-    private double temperatura;
+    private double temperatura, temperaturaConvertida;
     private JPanel painelBotoesEntrada;
     private JPanel painelBotoesSaida;
     private JPanel painelDeBotoesGeral;
+    private JPanel painelInput;
     private String selecaoDeTemperaturaEntrada = "";
     private String selecaoDeTemperaturaSaida = "";
     private int iterador = 0;
+
+    private JLabel labelResultado;
 
     public ConversaoTemperatura() {
         this.temperatura = 0.0;
@@ -23,11 +26,16 @@ public class ConversaoTemperatura extends JLabel {
         textField.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 temperatura = Double.parseDouble(textField.getText());
+                temperaturaConvertida = converteTemperatura();
                 repaint();
             }
         });
 
-        this.add(textField, BorderLayout.NORTH);
+        painelInput = new JPanel();
+        painelInput.setLayout(new FlowLayout());
+        painelInput.add(textField);
+
+        this.add(painelInput, BorderLayout.NORTH);
 
         ButtonGroup grupoDeBotoesEntrada = new ButtonGroup();
         ButtonGroup grupoDeBotoesSaida = new ButtonGroup();
@@ -48,9 +56,11 @@ public class ConversaoTemperatura extends JLabel {
 
         for (iterador = 0; iterador < opcoesDeTemperatura.length; iterador++) {
             opcoesDeTemperaturaEntradaBtn[iterador] = new JRadioButton(opcoesDeTemperatura[iterador]);
-            opcoesDeTemperaturaEntradaBtn[iterador].addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    selecaoDeTemperaturaEntrada = e.getActionCommand();
+            opcoesDeTemperaturaEntradaBtn[iterador].addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent e) {
+                    selecaoDeTemperaturaEntrada = e.getSource().toString().split("text=")[1].replace("]", "");
+                    temperaturaConvertida = converteTemperatura();
+                    labelResultado.setText("Resultado: " + temperaturaConvertida);
                     repaint();
                 }
             });
@@ -58,9 +68,11 @@ public class ConversaoTemperatura extends JLabel {
             painelBotoesEntrada.add(opcoesDeTemperaturaEntradaBtn[iterador]);
 
             opcoesDeTemperaturaSaidaBtn[iterador] = new JRadioButton(opcoesDeTemperatura[iterador]);
-            opcoesDeTemperaturaSaidaBtn[iterador].addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    selecaoDeTemperaturaSaida = e.getActionCommand();
+            opcoesDeTemperaturaSaidaBtn[iterador].addItemListener(new ItemListener() {
+                public void itemStateChanged(ItemEvent e) {
+                    selecaoDeTemperaturaSaida = e.getSource().toString().split("text=")[1].replace("]", "");
+                    temperaturaConvertida = converteTemperatura();
+                    labelResultado.setText("Resultado: " + temperaturaConvertida);
                     repaint();
                 }
             });
@@ -68,16 +80,19 @@ public class ConversaoTemperatura extends JLabel {
             painelBotoesSaida.add(opcoesDeTemperaturaSaidaBtn[iterador]);
         }
 
-        painelDeBotoesGeral.add(painelBotoesSaida);
         painelDeBotoesGeral.add(painelBotoesEntrada);
+        painelDeBotoesGeral.add(painelBotoesSaida);
+
+        labelResultado = new JLabel("Resultado: ");
 
         this.add(painelDeBotoesGeral, BorderLayout.CENTER);
-        this.add(new JLabel("Teste: " + this.converteTemperatura()), BorderLayout.SOUTH);
-        System.out.println("Teste: " + this.converteTemperatura());
+        this.add(labelResultado, BorderLayout.SOUTH);
 
     }
 
     public double converteTemperatura() {
+        double resultadoDaConversao = 0.0;
+
         switch (selecaoDeTemperaturaEntrada) {
         case "Celsius":
             switch (selecaoDeTemperaturaSaida) {
@@ -111,7 +126,7 @@ public class ConversaoTemperatura extends JLabel {
             break;
         }
 
-        return 0.0;
+        return resultadoDaConversao;
     }
 
     public static void main(String[] args) {
