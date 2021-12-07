@@ -17,6 +17,10 @@ public class ShowColors2JFrame extends JFrame {
     public ShowColors2JFrame() {
         super("Using JColorChooser");
 
+        Timer timer = new Timer(1000, event -> {
+            System.out.println("Timer");
+        });
+
         colorJPanel = new JGradientePanel();
 
         colorJPanel.setColorInicial(initialColor);
